@@ -14,3 +14,17 @@ exports.createBook = (req, res) => {
         .then(() => { res.status(201).json({ message: 'Objet enregistré !' }) })
         .catch(error => { res.status(400).json({ error }) })
 };
+
+exports.getAllBooks = async (req, res) => {
+    Book.find().then(
+        (books) => {
+            res.status(200).json(books);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+};
