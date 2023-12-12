@@ -63,6 +63,21 @@ exports.deleteBook = (req, res) => {
         });
 };
 
+exports.createRating = (req, res) => {
+    Book.findOne({ _id: req.params.id })
+        .then(book => {
+            const rating = {
+                userId: req.auth.userId,
+                grade: req.body.rating
+            };
+            book.ratings.push(rating);
+            book.averageRating = book.ratings.reduce((acc, cur) => acc + cur.grade, 0) / book.ratings.length
+            book.save()
+                .then(() => { res.status(200).json(book) })
+                .catch(error => { res.status(400).json({ error }) })
+        })
+};
+
 exports.getOneBook = (req, res) => {
     Book.findOne({
         _id: req.params.id
