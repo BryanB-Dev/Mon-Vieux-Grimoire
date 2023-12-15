@@ -28,6 +28,6 @@ module.exports = (req, res, next) => {
             });
         })
         .catch((error) => {
-            next(error);
+            console.error(error);
         });
 };

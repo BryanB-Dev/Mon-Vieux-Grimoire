@@ -13,7 +13,14 @@ exports.createBook = (req, res) => {
 
     book.save()
         .then(() => { res.status(201).json({ message: 'Objet enregistré !' }) })
-        .catch(error => { res.status(400).json({ error }) })
+        .catch(error => { 
+            fs.unlink(`images/${req.file.filename}`, (err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            res.status(400).json({ error })
+        })
 };
 
 exports.modifyBook = (req, res) => {
